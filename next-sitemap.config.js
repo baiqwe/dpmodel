@@ -3,7 +3,7 @@ module.exports = {
     siteUrl: process.env.SITE_URL || 'https://makebw.com',
     generateRobotsTxt: true,
     generateIndexSitemap: false,
-    exclude: ['/api/*', '/_next/*', '/server-sitemap.xml'],
+    exclude: ['/api/*', '/_next/*', '/server-sitemap.xml', '/icon.svg', '/apple-icon.png'],
 
     // Generate alternate language links
     alternateRefs: [
@@ -25,6 +25,27 @@ module.exports = {
                 disallow: ['/api/', '/_next/'],
             },
         ],
+    },
+
+    // ✅ 核心修复：手动添加动态路由路径
+    additionalPaths: async (config) => {
+        const locales = ['en', 'zh'];
+        const formats = ['jpg', 'png', 'webp', 'heic'];
+        const result = [];
+
+        for (const locale of locales) {
+            for (const format of formats) {
+                const path = `/${locale}/${format}-to-black-and-white`;
+
+                result.push({
+                    loc: path,
+                    changefreq: 'weekly',
+                    priority: 0.9,
+                    lastmod: new Date().toISOString(),
+                });
+            }
+        }
+        return result;
     },
 
     transform: async (config, path) => {
