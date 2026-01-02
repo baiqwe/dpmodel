@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { Geist } from "next/font/google";
+import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
 import "../../globals.css";
 
 // ✅ 必须添加这一行，让前端页面兼容 Cloudflare Edge
@@ -25,19 +26,19 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     return {
         // ✅ SEO 核心: metadataBase 用于生成绝对 URL
         metadataBase: new URL('https://makebw.com'),
-        
+
         title: {
             default: messages.metadata.title,
             template: '%s | MakeBW.com'
         },
         description: messages.metadata.description,
         keywords: messages.metadata.keywords,
-        
+
         // ✅ 作者和站点信息
         authors: [{ name: 'Bai' }],
         creator: 'Bai',
         publisher: 'MakeBW.com',
-        
+
         // ✅ Open Graph - 添加图片
         openGraph: {
             title: messages.metadata.title,
@@ -55,7 +56,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
                 },
             ],
         },
-        
+
         // ✅ Twitter Card - 添加图片
         twitter: {
             card: "summary_large_image",
@@ -63,7 +64,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             description: messages.metadata.description,
             images: ['https://makebw.com/web-app-manifest-512x512.png'],
         },
-        
+
         // ✅ Canonical & 多语言 alternates
         alternates: {
             canonical: `/${locale}`,
@@ -73,7 +74,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
                 'x-default': '/en',
             },
         },
-        
+
         // ✅ Robots 配置 - 允许索引
         robots: {
             index: true,
@@ -86,7 +87,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
                 'max-snippet': -1,
             },
         },
-        
+
         // ✅ Favicon 和图标配置 - 匹配实际文件
         icons: {
             icon: [
@@ -101,10 +102,10 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
                 { rel: 'mask-icon', url: '/favicon.svg', color: '#000000' },
             ],
         },
-        
+
         // ✅ Web App Manifest
         manifest: '/site.webmanifest',
-        
+
         // ✅ 其他 SEO 相关
         category: 'technology',
         classification: 'Image Processing Tool',
@@ -132,6 +133,7 @@ export default async function LocaleLayout(props: {
     return (
         <html lang={locale} className={geistSans.className} suppressHydrationWarning>
             <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
+                <SoftwareApplicationSchema />
                 <NextIntlClientProvider messages={messages} locale={locale}>
                     <ThemeProvider
                         attribute="class"
