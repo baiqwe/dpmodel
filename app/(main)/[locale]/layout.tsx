@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { Geist } from "next/font/google";
 import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import "../../globals.css";
 
 // ✅ 必须添加这一行，让前端页面兼容 Cloudflare Edge
@@ -133,6 +134,7 @@ export default async function LocaleLayout(props: {
     return (
         <html lang={locale} className={geistSans.className} suppressHydrationWarning>
             <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
+                <GoogleAnalytics />
                 <SoftwareApplicationSchema />
                 <NextIntlClientProvider messages={messages} locale={locale}>
                     <ThemeProvider
