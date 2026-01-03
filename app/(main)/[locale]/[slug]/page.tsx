@@ -14,7 +14,7 @@ type SupportedFormat = typeof supportedFormats[number];
 function getFormatFromSlug(slug: string): SupportedFormat | null {
     const match = slug.match(/^([a-z0-9]+)-to-black-and-white$/);
     if (!match) return null;
-    
+
     const format = match[1];
     if (supportedFormats.includes(format as SupportedFormat)) {
         return format as SupportedFormat;
@@ -190,6 +190,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             languages: {
                 'en': `/en/${slug}`,
                 'zh': `/zh/${slug}`,
+                'x-default': `/en/${slug}`,
             },
         },
     };
@@ -247,7 +248,7 @@ export default async function FormatToBWPage(props: { params: Promise<{ locale: 
             {/* Structured Data */}
             <BreadcrumbSchema items={breadcrumbs} />
             <FAQSchema items={faqItems} />
-            <HowToSchema 
+            <HowToSchema
                 name={isZh ? `如何将 ${formatUpper} 转换为黑白` : `How to Convert ${formatUpper} to Black and White`}
                 description={isZh ? `使用 MakeBW 免费在线工具，即时将 ${formatUpper} 图片转换为黑白。` : `Use MakeBW free online tool to instantly convert ${formatUpper} images to black and white.`}
                 steps={howToSteps}
@@ -352,7 +353,7 @@ export default async function FormatToBWPage(props: { params: Promise<{ locale: 
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '100% 隐私' : '100% Private'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '所有处理在浏览器本地完成，图片从不上传。'
                                         : 'All processing happens locally, images never leave your device.'}
                                 </p>
@@ -363,7 +364,7 @@ export default async function FormatToBWPage(props: { params: Promise<{ locale: 
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '即时转换' : 'Instant'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '无需等待上传下载，转换在毫秒内完成。'
                                         : 'No waiting for uploads, conversion happens in milliseconds.'}
                                 </p>
@@ -374,7 +375,7 @@ export default async function FormatToBWPage(props: { params: Promise<{ locale: 
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '高质量' : 'High Quality'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '保持原始分辨率，支持无损 PNG 输出。'
                                         : 'Maintains resolution, supports lossless PNG output.'}
                                 </p>
@@ -412,7 +413,7 @@ export default async function FormatToBWPage(props: { params: Promise<{ locale: 
                         </h2>
                         <div className="flex flex-wrap justify-center gap-4">
                             {supportedFormats.filter(f => f !== format).map((f) => (
-                                <a 
+                                <a
                                     key={f}
                                     href={`/${locale}/${f}-to-black-and-white`}
                                     className="px-4 py-2 rounded-full bg-muted hover:bg-muted/80 transition-colors text-sm font-medium"

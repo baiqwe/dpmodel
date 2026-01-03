@@ -42,6 +42,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             languages: {
                 'en': '/en/invert-colors',
                 'zh': '/zh/invert-colors',
+                'x-default': '/en/invert-colors',
             },
         },
     };
@@ -91,7 +92,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
             {/* Structured Data */}
             <BreadcrumbSchema items={breadcrumbs} />
             <FAQSchema items={faqItems} />
-            <HowToSchema 
+            <HowToSchema
                 name={isZh ? '如何反转图片颜色' : 'How to Invert Image Colors'}
                 description={isZh ? '使用 MakeBW 免费在线工具，一键创建负片效果。' : 'Use MakeBW free online tool to create negative effects with one click.'}
                 steps={howToSteps}
@@ -154,7 +155,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '艺术创作' : 'Art & Design'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '创造独特的视觉效果，用于海报、封面设计或数字艺术作品。'
                                         : 'Create unique visual effects for posters, cover designs, or digital artwork.'}
                                 </p>
@@ -165,7 +166,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '视觉辅助' : 'Visual Accessibility'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '帮助某些视觉障碍人士更容易阅读和理解图像内容。'
                                         : 'Help some visually impaired people more easily read and understand image content.'}
                                 </p>
@@ -176,7 +177,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '暗色主题' : 'Dark Mode Design'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '快速创建暗色版本的图标或界面元素，适配暗色模式。'
                                         : 'Quickly create dark versions of icons or UI elements for dark mode compatibility.'}
                                 </p>
@@ -195,7 +196,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                         </h2>
                         <div className="bg-background rounded-lg p-6 space-y-4">
                             <p className="text-muted-foreground">
-                                {isZh 
+                                {isZh
                                     ? '颜色反转的数学原理非常简单：对于 RGB 颜色空间中的每个通道，用 255 减去原始值。'
                                     : 'The mathematics of color inversion is simple: for each channel in the RGB color space, subtract the original value from 255.'}
                             </p>
@@ -205,7 +206,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 <p>New B = 255 - Original B</p>
                             </div>
                             <p className="text-muted-foreground">
-                                {isZh 
+                                {isZh
                                     ? '例如：纯红色 (255, 0, 0) 反转后变成青色 (0, 255, 255)。白色 (255, 255, 255) 变成黑色 (0, 0, 0)。'
                                     : 'For example: pure red (255, 0, 0) becomes cyan (0, 255, 255) after inversion. White (255, 255, 255) becomes black (0, 0, 0).'}
                             </p>
@@ -227,7 +228,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '隐私保护' : 'Privacy Protected'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '图片完全在浏览器本地处理，从不上传。'
                                             : 'Images are processed entirely in your browser, never uploaded.'}
                                     </p>
@@ -238,7 +239,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '保留透明度' : 'Preserves Transparency'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? 'PNG 图片的透明区域会被保留，只反转有颜色的部分。'
                                             : 'Transparent areas in PNG images are preserved, only colored areas are inverted.'}
                                     </p>
@@ -249,7 +250,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '即时预览' : 'Instant Preview'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '转换结果实时显示，无需等待。'
                                             : 'Conversion results are displayed in real-time, no waiting.'}
                                     </p>
@@ -260,7 +261,7 @@ export default async function InvertColorsPage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '完全免费' : 'Completely Free'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '无需注册，无需付费，无任何限制。'
                                             : 'No registration, no payment, no limits.'}
                                     </p>

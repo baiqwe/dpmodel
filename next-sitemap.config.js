@@ -31,8 +31,17 @@ module.exports = {
     additionalPaths: async (config) => {
         const locales = ['en', 'zh'];
         const formats = ['jpg', 'png', 'webp', 'heic'];
+        const staticPages = [
+            'color-to-black-and-white',
+            'photo-to-coloring-page',
+            'invert-colors',
+            'privacy',
+            'terms',
+            'about'
+        ];
         const result = [];
 
+        // Add format-specific pages
         for (const locale of locales) {
             for (const format of formats) {
                 const path = `/${locale}/${format}-to-black-and-white`;
@@ -45,6 +54,20 @@ module.exports = {
                 });
             }
         }
+
+        // Add static feature and policy pages
+        for (const locale of locales) {
+            for (const page of staticPages) {
+                const priority = page.includes('privacy') || page.includes('terms') ? 0.5 : 0.8;
+                result.push({
+                    loc: `/${locale}/${page}`,
+                    changefreq: page.includes('privacy') || page.includes('terms') ? 'monthly' : 'weekly',
+                    priority: priority,
+                    lastmod: new Date().toISOString(),
+                });
+            }
+        }
+
         return result;
     },
 

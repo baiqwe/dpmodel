@@ -15,7 +15,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const isZh = locale === 'zh';
     const ogImage = 'https://makebw.com/web-app-manifest-512x512.png';
     const title = isZh ? '关于我们 - MakeBW.com' : 'About Us - MakeBW.com';
-    const description = isZh 
+    const description = isZh
         ? 'MakeBW 是由开发者 Bai 创建的免费图片黑白转换工具。我们致力于提供最快、最安全的浏览器端图片处理方案。'
         : 'MakeBW is a free image-to-black-and-white converter created by developer Bai. We are committed to providing the fastest and most secure browser-based image processing.';
 
@@ -47,6 +47,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             languages: {
                 'en': '/en/about',
                 'zh': '/zh/about',
+                'x-default': '/en/about',
             },
         },
     };
@@ -92,7 +93,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                             {isZh ? '关于 MakeBW' : 'About MakeBW'}
                         </h1>
                         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                            {isZh 
+                            {isZh
                                 ? '由开发者为设计师、家长和教育工作者打造的免费在线图片处理工具。'
                                 : 'A free online image processing tool built by developers for designers, parents, and educators.'}
                         </p>
@@ -105,17 +106,17 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                         </h2>
                         <div className="space-y-4 text-muted-foreground">
                             <p>
-                                {isZh 
+                                {isZh
                                     ? 'MakeBW 诞生于一个简单的需求：我需要一个快速、免费且不会上传我照片的黑白转换工具。市面上的工具要么需要上传图片到服务器（隐私风险），要么需要付费订阅，要么功能过于复杂。'
                                     : 'MakeBW was born from a simple need: I wanted a fast, free tool that could convert images to black and white without uploading my photos anywhere. Existing tools either required uploading to servers (privacy risk), paid subscriptions, or were overly complex.'}
                             </p>
                             <p>
-                                {isZh 
+                                {isZh
                                     ? '作为一名开发者，我决定自己动手。利用现代浏览器的 Canvas API，我创建了这个完全在浏览器端运行的工具。您的图片从头到尾都不会离开您的设备。'
                                     : 'As a developer, I decided to build it myself. Using modern browser Canvas API, I created this tool that runs entirely in your browser. Your images never leave your device from start to finish.'}
                             </p>
                             <p>
-                                {isZh 
+                                {isZh
                                     ? '我深知家长想为孩子制作自定义填色画的心情，也了解老师需要快速创建教学材料的需求，更明白打印时节省墨水对很多人来说很重要。MakeBW 正是为这些真实需求而生。'
                                     : 'I understand parents wanting to create custom coloring pages for their kids, teachers needing to quickly create teaching materials, and how important saving printer ink is for many people. MakeBW is built for these real needs.'}
                             </p>
@@ -133,7 +134,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                             </CardHeader>
                             <CardContent>
                                 <p className="text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '所有图片处理都在您的浏览器本地完成。我们没有服务器存储您的图片，因为我们根本不会收到它们。'
                                         : 'All image processing happens locally in your browser. We have no servers storing your images because we never receive them.'}
                                 </p>
@@ -149,7 +150,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                             </CardHeader>
                             <CardContent>
                                 <p className="text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '没有复杂的注册流程，没有需要学习的软件。上传、转换、下载——就是这么简单。'
                                         : 'No complicated sign-up process, no software to learn. Upload, convert, download—it\'s that simple.'}
                                 </p>
@@ -165,7 +166,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                             </CardHeader>
                             <CardContent>
                                 <p className="text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '基础功能永远免费。我相信每个人都应该能够轻松获取这些工具。'
                                         : 'Core features are free forever. I believe everyone should have easy access to these tools.'}
                                 </p>
@@ -184,7 +185,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '灰度转换' : 'Grayscale Conversion'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '将彩色照片转为黑白，节省打印墨水，创造经典效果。'
                                             : 'Convert color photos to black and white, save printer ink, create classic effects.'}
                                     </p>
@@ -195,7 +196,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '填色画生成' : 'Coloring Page Generator'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '从任何照片提取线稿，制作可打印的儿童填色画。'
                                             : 'Extract line art from any photo, create printable coloring pages for kids.'}
                                     </p>
@@ -206,7 +207,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '反色效果' : 'Color Inversion'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '创建负片效果，用于特殊设计和艺术创作。'
                                             : 'Create negative effects for special designs and artistic creation.'}
                                     </p>
@@ -217,7 +218,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '多格式支持' : 'Multi-Format Support'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '支持 JPG、PNG、WebP、HEIC（iPhone）等主流格式。'
                                             : 'Support for JPG, PNG, WebP, HEIC (iPhone) and other popular formats.'}
                                     </p>
@@ -232,7 +233,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                             {isZh ? '开始使用' : 'Get Started'}
                         </h3>
                         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                            {isZh 
+                            {isZh
                                 ? '无需注册，无需安装。立即开始转换您的图片。'
                                 : 'No registration required. No installation needed. Start converting your images now.'}
                         </p>

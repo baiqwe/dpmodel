@@ -42,6 +42,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             languages: {
                 'en': '/en/photo-to-coloring-page',
                 'zh': '/zh/photo-to-coloring-page',
+                'x-default': '/en/photo-to-coloring-page',
             },
         },
     };
@@ -91,7 +92,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
             {/* Structured Data */}
             <BreadcrumbSchema items={breadcrumbs} />
             <FAQSchema items={faqItems} />
-            <HowToSchema 
+            <HowToSchema
                 name={isZh ? '如何把照片转换成填色画' : 'How to Convert Photos to Coloring Pages'}
                 description={isZh ? '使用 MakeBW 免费在线工具，只需4步即可将任何照片转换成可打印的填色画。' : 'Use MakeBW free online tool to convert any photo into a printable coloring page in just 4 steps.'}
                 steps={howToSteps}
@@ -154,7 +155,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '家长' : 'Parents'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '将家人照片转换成填色画，让孩子创作独特的家庭艺术作品。'
                                         : 'Create custom coloring pages from family photos for kids to color.'}
                                 </p>
@@ -165,7 +166,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '老师' : 'Teachers'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '为课堂活动生成教育性填色材料，让学习更有趣。'
                                         : 'Generate educational coloring materials for classroom activities.'}
                                 </p>
@@ -176,7 +177,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '艺术家' : 'Artists'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '从照片中提取线稿，用于描摹和插画创作。'
                                         : 'Extract line art from photos for tracing and illustration.'}
                                 </p>
@@ -199,7 +200,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '100% 隐私保护' : '100% Privacy'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '图片完全在浏览器本地处理，从不上传到服务器。'
                                             : 'Images are processed locally in your browser. Never uploaded to any server.'}
                                     </p>
@@ -210,7 +211,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '专业边缘检测' : 'Professional Edge Detection'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '使用 Sobel 边缘检测算法，生成清晰、专业的线稿效果。'
                                             : 'Using Sobel edge detection algorithm for clear, professional line art.'}
                                     </p>
@@ -221,7 +222,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '打印优化' : 'Print Optimized'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '输出专门针对打印优化，线条清晰，适合 A4 纸打印。'
                                             : 'Output is optimized for printing with clear lines, perfect for A4 paper.'}
                                     </p>
@@ -232,7 +233,7 @@ export default async function ColoringPagePage(props: { params: Promise<{ locale
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '永久免费' : 'Forever Free'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '无需注册，无需付费，无限制使用。'
                                             : 'No registration, no payment, unlimited use.'}
                                     </p>

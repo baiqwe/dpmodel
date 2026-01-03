@@ -42,6 +42,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             languages: {
                 'en': '/en/color-to-black-and-white',
                 'zh': '/zh/color-to-black-and-white',
+                'x-default': '/en/color-to-black-and-white',
             },
         },
     };
@@ -91,7 +92,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
             {/* Structured Data */}
             <BreadcrumbSchema items={breadcrumbs} />
             <FAQSchema items={faqItems} />
-            <HowToSchema 
+            <HowToSchema
                 name={isZh ? '如何将彩色照片转换为黑白' : 'How to Convert Color Photos to Black and White'}
                 description={isZh ? '使用 MakeBW 免费在线工具，4步将彩色照片转换为经典黑白效果。' : 'Use MakeBW free online tool to convert color photos to classic black and white in 4 steps.'}
                 steps={howToSteps}
@@ -154,7 +155,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '节省打印成本' : 'Save Printing Costs'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '黑白打印比彩色打印便宜 40-60%。预先转换可以节省大量墨水和碳粉费用。'
                                         : 'Black & white printing costs 40-60% less than color. Pre-converting saves significant ink and toner costs.'}
                                 </p>
@@ -165,7 +166,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '艺术摄影' : 'Art Photography'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '黑白照片能突出光影、纹理和构图，创造永恒经典的艺术效果。'
                                         : 'B&W photos emphasize light, shadow, texture, and composition, creating timeless artistic effects.'}
                                 </p>
@@ -176,7 +177,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 </div>
                                 <h3 className="font-semibold">{isZh ? '文档处理' : 'Document Processing'}</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    {isZh 
+                                    {isZh
                                         ? '将彩色文档扫描件转为黑白，减小文件大小，便于存档和传输。'
                                         : 'Convert color document scans to B&W, reducing file size for easier archiving and sharing.'}
                                 </p>
@@ -199,7 +200,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '完全隐私' : 'Complete Privacy'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '图片在浏览器本地处理，从不上传到服务器。'
                                             : 'Images are processed locally in your browser, never uploaded to servers.'}
                                     </p>
@@ -210,7 +211,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '即时转换' : 'Instant Conversion'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '无需等待上传下载，转换在毫秒内完成。'
                                             : 'No waiting for upload/download, conversion happens in milliseconds.'}
                                     </p>
@@ -221,7 +222,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '高质量输出' : 'High Quality Output'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '保持原始分辨率，支持 PNG 无损格式下载。'
                                             : 'Maintains original resolution, supports lossless PNG download.'}
                                     </p>
@@ -232,7 +233,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                                 <div>
                                     <h3 className="font-semibold mb-1">{isZh ? '永久免费' : 'Forever Free'}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        {isZh 
+                                        {isZh
                                             ? '无需注册，无需付费，无任何限制。'
                                             : 'No registration, no payment, no limits whatsoever.'}
                                     </p>
@@ -252,7 +253,7 @@ export default async function ColorToBWPage(props: { params: Promise<{ locale: s
                         </h2>
                         <div className="prose prose-gray dark:prose-invert max-w-none">
                             <p className="text-muted-foreground">
-                                {isZh 
+                                {isZh
                                     ? '我们的灰度转换使用加权平均法，根据人眼对不同颜色的敏感度进行计算：R × 0.299 + G × 0.587 + B × 0.114。这种方法比简单平均更能保留图像的视觉层次感。'
                                     : 'Our grayscale conversion uses the weighted average method, calculated based on human eye sensitivity to different colors: R × 0.299 + G × 0.587 + B × 0.114. This method preserves visual hierarchy better than simple averaging.'}
                             </p>
