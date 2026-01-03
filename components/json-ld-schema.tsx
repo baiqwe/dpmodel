@@ -4,12 +4,16 @@
  * 
  * Note: This is a server component to avoid hydration issues
  */
-export function SoftwareApplicationSchema() {
+import { getTranslations } from 'next-intl/server';
+
+export async function SoftwareApplicationSchema({ locale }: { locale: string }) {
+    const t = await getTranslations({ locale, namespace: 'metadata' });
+
     const schema = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "MakeBW - Image to Black and White Converter",
-        "description": "Free online tool to convert images to black and white. Supports grayscale conversion, line art generation for coloring pages, and color inversion.",
+        "description": t('description'),
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
         "offers": {
