@@ -1,5 +1,6 @@
 'use client';
 
+import { AiUpsellCard } from '@/components/feature/ai-upsell-card';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
@@ -47,14 +48,19 @@ function HeroWithUploadSection({
     // 如果已上传，显示处理界面（左右布局）
     if (imageUploaded) {
         return (
-            <section className="py-8 lg:py-12 bg-background">
-                <div className="container px-4 md:px-6">
-                    <ImageEditor
-                        defaultMode="grayscale"
-                        onImageUploaded={onImageUploaded}
-                        compact={true}
-                        initialImage={uploadedImageSrc}
-                    />
+            <section className="min-h-[calc(100vh-64px)] py-8 lg:py-12 bg-background flex flex-col">
+                <div className="container px-4 md:px-6 flex-1 flex flex-col max-w-5xl mx-auto">
+                    <div className="flex-none">
+                        <ImageEditor
+                            defaultMode="grayscale"
+                            onImageUploaded={onImageUploaded}
+                            compact={true}
+                            initialImage={uploadedImageSrc}
+                        />
+                    </div>
+                    <div className="flex-1 mt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 flex flex-col">
+                        <AiUpsellCard className="flex-1" />
+                    </div>
                 </div>
             </section>
         );

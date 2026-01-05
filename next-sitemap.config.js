@@ -1,9 +1,21 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.SITE_URL || 'https://makebw.com',
+    siteUrl: 'https://makebw.com',
     generateRobotsTxt: true,
     generateIndexSitemap: false,
-    exclude: ['/api/*', '/_next/*', '/server-sitemap.xml', '/icon.svg', '/apple-icon.png', '/_auth-pages/*'],
+
+    // Exclude pages that shouldn't be indexed
+    exclude: [
+        '/api/*',           // API routes
+        '/_next/*',         // Next.js system files
+        '/server-sitemap.xml',
+        '/icon.svg',
+        '/apple-icon.png',
+        '/*/sign-in',       // Auth pages
+        '/*/sign-up',
+        '/*/forgot-password',
+        '/*/create',        // AI Studio (requires login)
+    ],
 
     // Generate alternate language links
     alternateRefs: [
@@ -22,7 +34,14 @@ module.exports = {
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: ['/api/', '/_next/'],
+                disallow: [
+                    '/api/',
+                    '/_next/',
+                    '/*/sign-in',
+                    '/*/sign-up',
+                    '/*/forgot-password',
+                    '/*/create',
+                ],
             },
         ],
     },

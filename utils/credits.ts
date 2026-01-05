@@ -1,0 +1,119 @@
+import { createClient } from "@/utils/supabase/server";
+
+export class CreditError extends Error {
+    code: string;
+    constructor(message: string, code: 'INSUFFICIENT_CREDITS' | 'USER_NOT_FOUND' | 'DB_ERROR' = 'DB_ERROR') {
+        super(message);
+        this.code = code;
+    }
+}
+
+export async function getUserCredits(userId: string) {
+    const supabase = await createClient();
+
+    const { data: customer, error } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+    if (error) {
+        if (error.code === 'PGRST116') {
+            // Customer not found, try to create one or return default
+            return { credits: 0, customer: null };
+        }
+        throw new CreditError(error.message);
+    }
+
+    return { credits: customer.credits, customer };
+}
+
+export async function deductCredits(userId: string, amount: number, description: string) {
+    const supabase = await createClient();
+
+    // Get current balance
+    const { data: customer, error: fetchError } = await supabase
+        .from('customers')
+        .select('id, credits')
+        .eq('user_id', userId)
+        .single();
+
+    if (fetchError || !customer) {
+        throw new CreditError('User record not found', 'USER_NOT_FOUND');
+    }
+
+    if (customer.credits < amount) {
+        throw new CreditError('Insufficient credits', 'INSUFFICIENT_CREDITS');
+    }
+
+    // Update balance
+    const newBalance = customer.credits - amount;
+    const { error: updateError } = await supabase
+        .from('customers')
+        .update({
+            credits: newBalance,
+            updated_at: new Date().toISOString()
+        })
+        .eq('id', customer.id);
+
+    if (updateError) {
+        throw new CreditError(updateError.message);
+    }
+
+    // Log history
+    await supabase.from('credits_history').insert({
+        customer_id: customer.id,
+        amount: amount,
+        type: 'subtract',
+        description: description,
+        metadata: {
+            operation: 'deduct',
+            credits_before: customer.credits,
+            credits_after: newBalance
+        }
+    });
+
+    return newBalance;
+}
+
+export async function addCredits(userId: string, amount: number, description: string) {
+    const supabase = await createClient();
+
+    const { data: customer, error: fetchError } = await supabase
+        .from('customers')
+        .select('id, credits')
+        .eq('user_id', userId)
+        .single();
+
+    if (fetchError || !customer) {
+        throw new CreditError('User record not found', 'USER_NOT_FOUND');
+    }
+
+    const newBalance = customer.credits + amount;
+
+    const { error: updateError } = await supabase
+        .from('customers')
+        .update({
+            credits: newBalance,
+            updated_at: new Date().toISOString()
+        })
+        .eq('id', customer.id);
+
+    if (updateError) {
+        throw new CreditError(updateError.message);
+    }
+
+    await supabase.from('credits_history').insert({
+        customer_id: customer.id,
+        amount: amount,
+        type: 'add',
+        description: description,
+        metadata: {
+            operation: 'add',
+            credits_before: customer.credits,
+            credits_after: newBalance
+        }
+    });
+
+    return newBalance;
+}
