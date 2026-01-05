@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Sparkles, Wand2 } from "lucide-react";
 import ImageUploader from "@/components/feature/image-uploader";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 const STYLES = [
@@ -32,7 +31,6 @@ const STYLES = [
 ];
 
 export default function CreateClient({ user }: { user: any }) {
-    const t = useTranslations('create'); // Assuming we'll add this Namespace later or use fallback
     const { credits, spendCredits } = useCredits();
 
     const [prompt, setPrompt] = useState("");
