@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useImageProcessor, ProcessMode } from '@/hooks/useImageProcessor';
 import ImageUploader from './image-uploader';
 import CompareSlider from './compare-slider';
+import { AiPromotionBanner } from './ai-promotion-banner';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -18,7 +19,7 @@ interface ImageEditorProps {
     initialImage?: string; // 初始图片（用于状态恢复）
 }
 
-export default function ImageEditor({ 
+export default function ImageEditor({
     defaultMode = 'grayscale',
     onImageUploaded,
     compact = false,
@@ -320,6 +321,11 @@ export default function ImageEditor({
                     </Button>
                 </div>
             </div>
+
+            {/* AI Promotion Banner - Freemium Funnel Hook */}
+            {hasProcessed && processedImage && (
+                <AiPromotionBanner />
+            )}
         </div>
     );
 }

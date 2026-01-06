@@ -194,7 +194,7 @@ export default function CreateClient({ user }: { user: any }) {
                         ) : (
                             <div className="bg-primary/10 p-4 rounded-lg text-sm text-primary flex items-center gap-2">
                                 <Sparkles className="w-4 h-4" />
-                                New users get 10 free credits!
+                                New users get 30 free credits!
                             </div>
                         )}
 

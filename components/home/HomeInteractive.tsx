@@ -48,18 +48,19 @@ function HeroWithUploadSection({
     // 如果已上传，显示处理界面（左右布局）
     if (imageUploaded) {
         return (
-            <section className="min-h-[calc(100vh-64px)] py-8 lg:py-12 bg-background flex flex-col">
-                <div className="container px-4 md:px-6 flex-1 flex flex-col max-w-5xl mx-auto">
-                    <div className="flex-none">
-                        <ImageEditor
-                            defaultMode="grayscale"
-                            onImageUploaded={onImageUploaded}
-                            compact={true}
-                            initialImage={uploadedImageSrc}
-                        />
-                    </div>
-                    <div className="flex-1 mt-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 flex flex-col">
-                        <AiUpsellCard className="flex-1" />
+            <section className="py-8 lg:py-12 bg-background">
+                <div className="container px-4 md:px-6 max-w-6xl mx-auto space-y-6">
+                    {/* 主编辑区域 - Areas 1 & 2 */}
+                    <ImageEditor
+                        defaultMode="grayscale"
+                        onImageUploaded={onImageUploaded}
+                        compact={true}
+                        initialImage={uploadedImageSrc}
+                    />
+
+                    {/* AI 推广区域 - Area 3 (紧凑) */}
+                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
+                        <AiUpsellCard />
                     </div>
                 </div>
             </section>
