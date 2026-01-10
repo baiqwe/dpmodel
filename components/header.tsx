@@ -44,6 +44,7 @@ export default function Header({ user }: HeaderProps) {
   const mainNavItems: NavItem[] = [
     { label: t('home'), href: localePrefix },
     { label: "✨ AI Studio", href: `${localePrefix}/create` },
+    { label: t('pricing'), href: `${localePrefix}/pricing` },
     { label: currentLocale === 'zh' ? '填色画' : 'Coloring Pages', href: `${localePrefix}/photo-to-coloring-page` },
     { label: t('about'), href: `${localePrefix}/about` },
   ];

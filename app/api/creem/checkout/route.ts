@@ -19,6 +19,7 @@ export async function POST(request: Request) {
         const priceId = formData.get("priceId") as string;
         const productType = formData.get("productType") as string; // 'subscription' or 'credits'
         const credits = formData.get("credits") as string; // 如果是积分包，传入积分数量
+        const redirectUrl = formData.get("redirectUrl") as string; // 可选：支付成功后的跳转地址
 
         if (!priceId) {
             return NextResponse.json(
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
                 product_id: priceId,
-                success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?checkout=success`,
+                success_url: redirectUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?checkout=success`,
                 // 🔥 关键：将 User ID 和产品类型传入 metadata，以便 Webhook 识别
                 metadata: {
                     user_id: user.id,

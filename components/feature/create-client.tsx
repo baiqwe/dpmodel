@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCredits } from "@/hooks/use-credits";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,6 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Sparkles, Wand2 } from "lucide-react";
 import ImageUploader from "@/components/feature/image-uploader";
 import Image from "next/image";
+import { QuickRefillModal } from "@/components/payment/quick-refill-modal";
+import { useToast } from "@/hooks/use-toast";
+import confetti from "canvas-confetti"; // Make sure to install this package
 
 const STYLES = [
     {
@@ -39,6 +42,7 @@ const SIZE_OPTIONS = [
 
 export default function CreateClient({ user }: { user: any }) {
     const { credits, spendCredits, refetchCredits } = useCredits();
+    const { toast } = useToast();
 
     const [prompt, setPrompt] = useState("");
     const [selectedStyle, setSelectedStyle] = useState(STYLES[0].id);
@@ -48,22 +52,88 @@ export default function CreateClient({ user }: { user: any }) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Payment Modal State
+    const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
+
+    // Initial load logic: check for payment success
+    useEffect(() => {
+        const query = new URLSearchParams(window.location.search);
+        if (query.get("checkout") === "success") {
+            // Restore state if available
+            const savedState = localStorage.getItem("pending_generation");
+            if (savedState) {
+                try {
+                    const parsed = JSON.parse(savedState);
+                    setUploadedImage(parsed.uploadedImage);
+                    setPrompt(parsed.prompt);
+                    setSelectedStyle(parsed.selectedStyle);
+                    setSelectedSize(parsed.selectedSize);
+
+                    // Clear state
+                    localStorage.removeItem("pending_generation");
+
+                    // Show celebration
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+
+                    toast({
+                        title: "Payment Successful!",
+                        description: "Credits added. Resuming your masterpiece...",
+                        className: "bg-green-500 text-white border-none"
+                    });
+
+                    // Auto-trigger generation after a short delay to allow credits to update
+                    setTimeout(() => {
+                        handleGenerate(true); // Force run
+                    }, 1000);
+                } catch (e) {
+                    console.error("Failed to restore state", e);
+                }
+            } else {
+                toast({
+                    title: "Welcome Back!",
+                    description: "Your credits have been topped up.",
+                });
+            }
+
+            // Refetch credits to ensure UI is up to date
+            refetchCredits();
+
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }, []);
+
     const handleImageSelect = (imageSrc: string) => {
         setUploadedImage(imageSrc);
         setResultImage(null);
         setError(null);
     };
 
-    const handleGenerate = async () => {
+    const saveStateForRefill = () => {
+        localStorage.setItem("pending_generation", JSON.stringify({
+            uploadedImage,
+            prompt,
+            selectedStyle,
+            selectedSize
+        }));
+    };
+
+    const handleGenerate = async (force = false) => {
         if (!uploadedImage) return;
+
         if (!user) {
-            // Redirect or show login modal (simulated for now)
             window.location.href = "/sign-in";
             return;
         }
 
-        if (credits && credits.remaining_credits < 10) {
-            setError("Insufficient credits. Please top up.");
+        // Check local credits first (unless forced)
+        if (!force && credits && credits.remaining_credits < 10) {
+            saveStateForRefill();
+            setIsRefillModalOpen(true);
             return;
         }
 
@@ -71,7 +141,6 @@ export default function CreateClient({ user }: { user: any }) {
         setError(null);
 
         try {
-            // 2. Call Generation API
             console.log("Calling generation API...");
 
             const response = await fetch("/api/ai/generate", {
@@ -89,11 +158,14 @@ export default function CreateClient({ user }: { user: any }) {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error("API Error:", errorData);
+
+                // Intercept 402 Insufficient Funds
                 if (response.status === 402) {
-                    throw new Error("Insufficient credits");
+                    saveStateForRefill();
+                    setIsRefillModalOpen(true);
+                    return; // Stop execution
                 }
-                // 显示详细错误信息（包括 details）
+
                 const errorMsg = errorData.details
                     ? `${errorData.error}: ${errorData.details}`
                     : (errorData.error || "Generation failed");
@@ -105,15 +177,17 @@ export default function CreateClient({ user }: { user: any }) {
 
             if (data.url) {
                 setResultImage(data.url);
-                // Refresh credits
                 await refetchCredits();
             } else {
                 throw new Error("No image returned from server");
             }
 
-        } catch (err) {
+        } catch (err: any) {
             console.error("Generation error:", err);
-            setError(err instanceof Error ? err.message : "Failed to generate");
+            // Don't show error if we opened the modal
+            if (!isRefillModalOpen) {
+                setError(err instanceof Error ? err.message : "Failed to generate");
+            }
         } finally {
             setIsGenerating(false);
         }
@@ -121,6 +195,11 @@ export default function CreateClient({ user }: { user: any }) {
 
     return (
         <div className="container py-8 px-4 max-w-7xl mx-auto">
+            <QuickRefillModal
+                isOpen={isRefillModalOpen}
+                onClose={() => setIsRefillModalOpen(false)}
+            />
+
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
                 {/* Left Column: Settings */}
                 <div className="space-y-8">
@@ -236,9 +315,9 @@ export default function CreateClient({ user }: { user: any }) {
 
                         <Button
                             size="lg"
-                            className="w-full text-lg h-14"
-                            onClick={handleGenerate}
-                            disabled={!uploadedImage || isGenerating || (user && (credits?.remaining_credits ?? 0) < 10)}
+                            className="w-full text-lg h-14 relative overflow-hidden group"
+                            onClick={() => handleGenerate()}
+                            disabled={!uploadedImage || isGenerating}
                         >
                             {isGenerating ? (
                                 <>
@@ -247,7 +326,7 @@ export default function CreateClient({ user }: { user: any }) {
                                 </>
                             ) : (
                                 <>
-                                    <Wand2 className="mr-2 h-5 w-5" />
+                                    <Wand2 className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                                     Generate (10 Credits)
                                 </>
                             )}
@@ -330,3 +409,4 @@ export default function CreateClient({ user }: { user: any }) {
         </div>
     );
 }
+

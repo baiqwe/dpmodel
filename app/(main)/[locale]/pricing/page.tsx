@@ -1,10 +1,23 @@
-import PricingClient from "./pricing-client";
+import { PricingSection } from "@/components/marketing/pricing-section";
+import { setRequestLocale } from 'next-intl/server';
+import { Metadata } from "next";
 
-export const runtime = 'edge';
+export const metadata: Metadata = {
+    title: "Pricing - MakeBW",
+    description: "Pricing plans for MakeBW AI tools."
+};
 
-export default async function PricingPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const { locale } = params;
+type Props = {
+    params: Promise<{ locale: string }>;
+}
 
-    return <PricingClient locale={locale} />;
+export default async function PricingPage({ params }: Props) {
+    const { locale } = await params;
+    setRequestLocale(locale);
+
+    return (
+        <div className="bg-background min-h-screen pt-20">
+            <PricingSection locale={locale} />
+        </div>
+    );
 }
