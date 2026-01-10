@@ -469,6 +469,14 @@ function FAQSection({ isZh }: { isZh: boolean }) {
         {
             q: "可以将照片变成填色画吗？",
             a: "当然可以！只需选择'填色画'模式，我们的智能算法会自动提取线条，生成清晰的黑白线稿，非常适合打印给孩子填色。"
+        },
+        {
+            q: "支持哪些图片格式？",
+            a: "我们支持 JPG, PNG, WebP, 以及 iPhone 默认的 HEIC 格式。所有格式都可以即时转换为黑白。"
+        },
+        {
+            q: "转换后的图片质量如何？",
+            a: "MakeBW 保持原始图片的分辨率。对于线稿提取，我们提供参数调整功能，确保您获得最清晰的边缘，非常适合高分辨率打印。"
         }
     ] : [
         {
@@ -482,6 +490,10 @@ function FAQSection({ isZh }: { isZh: boolean }) {
         {
             q: "Can I turn a photo into a coloring page?",
             a: "Absolutely! Just select 'Coloring Page' mode. Our smart algorithm automatically extracts line art to create clear black and white coloring pages perfect for printing."
+        },
+        {
+            q: "What formats are supported?",
+            a: "We support JPG, PNG, WebP, and HEIC (iPhone default). All formats can be processed instantly."
         }
     ];
 

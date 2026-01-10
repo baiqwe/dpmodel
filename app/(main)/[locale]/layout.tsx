@@ -27,7 +27,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
     return {
         // ✅ SEO 核心: metadataBase 用于生成绝对 URL
-        metadataBase: new URL('https://makebw.com'),
+        metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://makebw.com'),
 
         title: {
             default: messages.metadata.title,

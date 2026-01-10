@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const runtime = 'edge';
+
 import { createClient } from '@/utils/supabase/server';
 
 // GET - 获取用户积分（使用统一的customers表）
 export async function GET() {
   try {
     const supabase = await createClient();
-    
+
     // 获取当前用户
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
     if (authError || !user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -85,7 +87,7 @@ export async function GET() {
           metadata: { source: 'welcome_bonus' }
         });
 
-      return NextResponse.json({ 
+      return NextResponse.json({
         credits: {
           id: newCustomer.id,
           user_id: newCustomer.user_id,
@@ -98,7 +100,7 @@ export async function GET() {
     }
 
     // 返回兼容的格式
-    return NextResponse.json({ 
+    return NextResponse.json({
       credits: {
         id: customer.id,
         user_id: customer.user_id,
@@ -121,7 +123,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const { amount, operation } = await request.json();
-    
+
     if (!amount || amount <= 0) {
       return NextResponse.json(
         { error: 'Invalid credit amount' },
@@ -130,10 +132,10 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createClient();
-    
+
     // 获取当前用户
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
     if (authError || !user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -205,7 +207,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 返回兼容的格式
-    return NextResponse.json({ 
+    return NextResponse.json({
       credits: {
         id: updatedCustomer.id,
         user_id: updatedCustomer.user_id,
@@ -214,7 +216,7 @@ export async function POST(request: NextRequest) {
         created_at: updatedCustomer.created_at,
         updated_at: updatedCustomer.updated_at
       },
-      success: true 
+      success: true
     });
   } catch (error) {
     console.error('Credits spend API error:', error);

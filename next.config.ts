@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
     appIsrStatus: false,
   },
 
-  // Allow external images from Replicate
   images: {
+    unoptimized: true, // Required for Cloudflare Pages
     remotePatterns: [
       {
         protocol: 'https',
@@ -19,6 +19,16 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '*.replicate.delivery',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com', // Google Avatar
         pathname: '/**',
       },
     ],
