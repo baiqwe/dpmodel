@@ -4,10 +4,11 @@ import OpenAI from "openai";
 // Required for Cloudflare Pages deployment
 export const runtime = 'edge';
 
-// Initialize OpenAI client pointing to DeepSeek API
+// Initialize OpenAI client
+// Supports DeepSeek Official or OpenRouter via environment variables
 const openai = new OpenAI({
-    apiKey: process.env.DEEPSEEK_API_KEY || "placeholder", // Will fail if not set, but prevents build error
-    baseURL: "https://api.deepseek.com",
+    apiKey: process.env.DEEPSEEK_API_KEY || "placeholder",
+    baseURL: process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com",
 });
 
 export async function POST(request: NextRequest) {
@@ -29,10 +30,11 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Call DeepSeek API
+        // Call API
+        // Defaults to "deepseek-reasoner" (R1) but can be overridden (e.g. "deepseek/deepseek-r1" for OpenRouter)
         const completion = await openai.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
-            model: "deepseek-reasoner",
+            model: process.env.DEEPSEEK_MODEL || "deepseek-reasoner",
         });
 
         const content = completion.choices[0].message.content;
@@ -43,12 +45,12 @@ export async function POST(request: NextRequest) {
         });
 
     } catch (error: any) {
-        console.error("DeepSeek API Error:", error);
+        console.error("API Error:", error);
 
         // Handle specific OpenAI errors
         if (error.response) {
             return NextResponse.json(
-                { error: error.response.data.error.message || "DeepSeek API Error" },
+                { error: error.response.data.error.message || "Provider API Error" },
                 { status: error.response.status }
             );
         }
