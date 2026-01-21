@@ -1,23 +1,22 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
-import HomeInteractive from './HomeInteractive';
+import { type ReactNode } from 'react';
+import { PlaygroundSection } from '@/components/playground';
 
 interface HomeClientWrapperProps {
     staticContent: ReactNode;
-    user: any; // Pass user to interactive component
+    user: any;
 }
 
 export default function HomeClientWrapper({ staticContent, user }: HomeClientWrapperProps) {
-    const [showStaticContent, setShowStaticContent] = useState(true);
-
     return (
         <div className="min-h-screen bg-background">
-            {/* Hero + Interactive Upload Section */}
-            <HomeInteractive onShowStaticContent={setShowStaticContent} user={user} />
+            {/* Playground Section - 替换原有的 Hero */}
+            <PlaygroundSection />
 
-            {/* Static Content - only shown when no image is uploaded */}
-            {showStaticContent && staticContent}
+            {/* Static Content - SEO 内容 */}
+            {staticContent}
         </div>
     );
 }
+

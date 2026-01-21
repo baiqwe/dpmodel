@@ -9,10 +9,26 @@ export async function middleware(request: NextRequest) {
   // 1. 先运行 intl 中间件，获取基础 Response (包含语言 Cookie 和重定向逻辑)
   let response = intlMiddleware(request)
 
-  // 2. 初始化 Supabase 客户端
+  // 2. 检查 Supabase 环境变量是否有效
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // 跳过 Supabase 初始化如果环境变量缺失或为占位符
+  const isValidSupabaseConfig =
+    supabaseUrl &&
+    supabaseAnonKey &&
+    !supabaseUrl.includes('placeholder') &&
+    supabaseUrl.includes('supabase')
+
+  if (!isValidSupabaseConfig) {
+    // 开发模式下跳过 Supabase，直接返回 intl response
+    return response
+  }
+
+  // 3. 初始化 Supabase 客户端
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -35,7 +51,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // 3. 刷新 Session (这会触发上面的 setAll)
+  // 4. 刷新 Session (这会触发上面的 setAll)
   // 重要：不要在这里写 user 变量的逻辑判断，只负责刷新 Cookie
   await supabase.auth.getUser()
 
