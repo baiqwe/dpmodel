@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Geist } from "next/font/google";
 import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
 import { GoogleAnalytics } from "@/components/google-analytics";
+import { Clarity } from "@/components/clarity";
 import { createClient } from "@/utils/supabase/server";
 import { siteConfig } from "@/config/site";
 import "../../globals.css";
@@ -115,6 +116,7 @@ export default async function LocaleLayout(props: {
         <html lang={locale} className={geistSans.className} suppressHydrationWarning>
             <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
                 <GoogleAnalytics />
+                <Clarity />
                 <SoftwareApplicationSchema locale={locale} />
                 <NextIntlClientProvider messages={messages} locale={locale}>
                     <ThemeProvider
