@@ -38,57 +38,27 @@ const PlaygroundSection = () => {
         setResponse("");
         setShowBlur(false);
 
-        // Simulated streaming response
-        const sampleResponse = `Based on your query about "${prompt.slice(0, 50)}...", here's my analysis:
+        try {
+            const res = await fetch('/api/ai/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt }),
+            });
 
-**Understanding the Core Concept**
-
-DeepSeek Model1 leverages advanced reasoning capabilities through its innovative FlashMLA (Multi-head Latent Attention) architecture. This allows for:
-
-1. **Faster Inference**: Up to 3x speedup compared to standard attention mechanisms
-2. **Memory Efficiency**: Reduced KV cache requirements through latent compression
-3. **Scalable Context**: Support for 128K token context windows
-
-**Technical Implementation**
-
-The model utilizes a mixture-of-experts (MoE) architecture with 671B total parameters, where only 37B are activated per token. This sparse activation pattern enables:
-
-\`\`\`python
-def flash_mla_attention(query, key, value, latent_dim=512):
-    # Compress KV pairs into latent space
-    latent_k = linear_proj(key, latent_dim)
-    latent_v = linear_proj(value, latent_dim)
-    
-    # Compute attention in compressed space
-    attn_weights = softmax(query @ latent_k.T / sqrt(d))
-    output = attn_weights @ latent_v
-    
-    return output
-\`\`\`
-
-**Performance Metrics**
-
-| Benchmark | Model1 Score | GPT-4 Score |
-|-----------|-------------|-------------|
-| MATH-500  | 97.3%       | 94.1%       |
-| HumanEval | 92.1%       | 88.4%       |
-| MMLU      | 91.8%       | 90.2%       |
-
-The reasoning capabilities extend beyond simple...`;
-
-        // Stream the response character by character
-        for (let i = 0; i < sampleResponse.length; i++) {
-            await new Promise((resolve) => setTimeout(resolve, 8));
-            setResponse(sampleResponse.slice(0, i + 1));
-
-            // Show blur after certain point
-            if (i > 600) {
-                setShowBlur(true);
-                break;
+            if (!res.ok) {
+                throw new Error(res.statusText);
             }
-        }
 
-        setIsGenerating(false);
+            const data = await res.json();
+            setResponse(data.result);
+        } catch (error) {
+            console.error("Generation error:", error);
+            setResponse("Error: Failed to generate response. Please try again later. (Check API Key configuration)");
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const handleReset = () => {
@@ -172,6 +142,10 @@ The reasoning capabilities extend beyond simple...`;
                                     </Button>
                                 </div>
                             </div>
+                            {/* Privacy Disclaimer */}
+                            <p className="mt-3 text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
+                                🔒 Your prompts are sent directly to DeepSeek API and are not stored by us.
+                            </p>
                         </div>
 
                         {/* Output area */}

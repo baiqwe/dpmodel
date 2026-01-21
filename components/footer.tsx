@@ -125,7 +125,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-center text-sm text-muted-foreground md:text-left">
-            © {new Date().getFullYear()} {siteConfig.name}. {t('rights')}
+            © {new Date().getFullYear()} {siteConfig.name}. Not affiliated with DeepSeek Inc. A project by AI enthusiasts.
           </p>
           <p className="text-center text-sm text-muted-foreground md:text-right">
             Built by <span className="font-medium">{siteConfig.author}</span>

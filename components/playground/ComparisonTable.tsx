@@ -94,8 +94,8 @@ const ComparisonTable = () => {
                     </div>
                 </div>
 
-                <p className="text-center text-xs text-muted-foreground mt-4">
-                    * Benchmarks based on publicly available data. Performance may vary.
+                <p className="text-center text-sm text-muted-foreground mt-4">
+                    * Benchmarks based on publicly available data (Source: DeepSeek Technical Report 2024). Performance may vary.
                 </p>
             </div>
         </section>
