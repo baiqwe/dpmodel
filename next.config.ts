@@ -34,6 +34,13 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // 确保 API 路由兼容性
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+
   // Configure webpack to ignore the external folder
   webpack: (config: any) => {
     config.watchOptions = {
