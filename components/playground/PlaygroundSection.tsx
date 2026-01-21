@@ -3,16 +3,20 @@
 import { useState, useEffect } from "react";
 import { Send, Loader2, Sparkles, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import StatsPanel from "./StatsPanel";
 
-const examplePrompts = [
-    "Explain the concept of FlashMLA and how it accelerates inference...",
-    "Write a Python function to implement binary search with O(log n)...",
-    "What are the key differences between transformer architectures...",
-    "Solve this step by step: If a train travels 120km in 2 hours...",
-];
-
 const PlaygroundSection = () => {
+    const t = useTranslations('playground');
+    const tHero = useTranslations('hero');
+
+    const examplePrompts = [
+        "Explain the concept of FlashMLA and how it accelerates inference...",
+        "Write a Python function to implement binary search with O(log n)...",
+        "What are the key differences between transformer architectures...",
+        "Solve this step by step: If a train travels 120km in 2 hours...",
+    ];
+
     const [prompt, setPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [response, setResponse] = useState("");
@@ -22,7 +26,7 @@ const PlaygroundSection = () => {
     // Rotate example prompts
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentExample((prev) => (prev + 1) % examplePrompts.length);
+            setCurrentExample((prev: number) => (prev + 1) % examplePrompts.length);
         }, 4000);
         return () => clearInterval(interval);
     }, []);
@@ -96,6 +100,35 @@ The reasoning capabilities extend beyond simple...`;
     return (
         <section className="relative px-4 py-16" id="playground">
             <div className="max-w-7xl mx-auto">
+                {/* Hero Header */}
+                <div className="text-center mb-12">
+                    <div className="inline-flex items-center rounded-full px-4 py-2 text-sm bg-primary/10 text-primary mb-6">
+                        {tHero('badge')}
+                    </div>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                        {tHero('title')}
+                        <br />
+                        <span className="text-gradient">{tHero('title_highlight')}</span>
+                    </h1>
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+                        {tHero('subtitle')}
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                            {tHero('feature_1')}
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            {tHero('feature_2')}
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                            {tHero('feature_3')}
+                        </div>
+                    </div>
+                </div>
+
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* Main playground area */}
                     <div className="lg:col-span-2 space-y-4">
@@ -111,7 +144,7 @@ The reasoning capabilities extend beyond simple...`;
                             <div className="relative">
                                 <textarea
                                     value={prompt}
-                                    onChange={(e) => setPrompt(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
                                     placeholder={examplePrompts[currentExample]}
                                     className="w-full h-32 bg-background border border-border rounded-xl p-4 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none font-mono text-sm"
                                     disabled={isGenerating}
@@ -135,7 +168,7 @@ The reasoning capabilities extend beyond simple...`;
                                         ) : (
                                             <Send className="w-4 h-4" />
                                         )}
-                                        Run
+                                        {t('run_button')}
                                     </Button>
                                 </div>
                             </div>
@@ -146,12 +179,12 @@ The reasoning capabilities extend beyond simple...`;
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-primary" />
-                                    <span className="text-sm font-medium text-foreground">Model1 Response</span>
+                                    <span className="text-sm font-medium text-foreground">{t('response_title')}</span>
                                 </div>
                                 {isGenerating && (
                                     <div className="flex items-center gap-2 text-primary text-sm">
                                         <Loader2 className="w-3 h-3 animate-spin" />
-                                        Generating...
+                                        {t('generating')}
                                     </div>
                                 )}
                             </div>
@@ -160,7 +193,7 @@ The reasoning capabilities extend beyond simple...`;
                                 <div className={`font-mono text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed ${showBlur ? 'max-h-[300px] overflow-hidden' : ''}`}>
                                     {response || (
                                         <span className="text-muted-foreground italic">
-                                            Enter a prompt above and click &quot;Run&quot; to test DeepSeek Model1...
+                                            {t('empty_state')}
                                         </span>
                                     )}
                                     <span className={`inline-block w-2 h-4 bg-primary ml-1 ${isGenerating ? 'animate-shimmer' : 'opacity-0'}`} />
@@ -171,11 +204,11 @@ The reasoning capabilities extend beyond simple...`;
                                     <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-card via-card/95 to-transparent flex items-end justify-center pb-8">
                                         <div className="text-center space-y-4">
                                             <p className="text-sm text-muted-foreground">
-                                                High traffic on Model1 nodes. Verify to continue.
+                                                {t('blur_message')}
                                             </p>
                                             <Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2 shadow-lg">
                                                 <Sparkles className="w-4 h-4" />
-                                                Continue with Full Access
+                                                {t('continue_button')}
                                             </Button>
                                         </div>
                                     </div>

@@ -8,7 +8,6 @@ import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
 import { MobileNav } from "./mobile-nav";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname as useIntlPathname } from "@/i18n/routing";
 
 interface HeaderProps {
   user: any;
@@ -21,35 +20,31 @@ interface NavItem {
 
 export default function Header({ user }: HeaderProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const t = useTranslations('nav');
   const isDashboard = pathname?.startsWith("/dashboard");
 
-  // 更可靠地检测当前 locale
+  // 检测当前 locale
   const pathParts = pathname?.split('/') || [];
   const currentLocale = (pathParts[1] === 'en' || pathParts[1] === 'zh') ? pathParts[1] : 'en';
   const localePrefix = `/${currentLocale}`;
 
-  // 获取不带 locale 前缀的路径（用于语言切换）
+  // 获取不带 locale 前缀的路径
   const getPathWithoutLocale = () => {
     if (!pathname) return '/';
-    // 如果路径以 /en 或 /zh 开头，移除它
     const withoutLocale = pathname.replace(/^\/(en|zh)/, '');
     return withoutLocale || '/';
   };
 
   const pathWithoutLocale = getPathWithoutLocale();
 
-  // Main navigation items
+  // DeepSeek Model1 导航项
   const mainNavItems: NavItem[] = [
     { label: t('home'), href: localePrefix },
-    { label: "✨ AI Studio", href: `${localePrefix}/create` },
-    { label: t('pricing'), href: `${localePrefix}/pricing` },
-    { label: currentLocale === 'zh' ? '填色画' : 'Coloring Pages', href: `${localePrefix}/photo-to-coloring-page` },
-    { label: t('about'), href: `${localePrefix}/about` },
+    { label: "🚀 Playground", href: `${localePrefix}#playground` },
+    { label: "📊 " + t('comparison'), href: `${localePrefix}#comparison` },
+    { label: "❓ " + t('faq'), href: `${localePrefix}#faq` },
   ];
 
-  // Dashboard items
   const dashboardItems: NavItem[] = [];
   const navItems = isDashboard ? dashboardItems : mainNavItems;
 
@@ -66,7 +61,7 @@ export default function Header({ user }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className="text-lg font-semibold text-muted-foreground transition-colors hover:text-primary"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
               {item.label}
             </Link>
@@ -74,7 +69,7 @@ export default function Header({ user }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* Language Switcher - 修复后的版本 */}
+          {/* Language Switcher */}
           <div className="hidden md:flex items-center gap-1 mr-2">
             <Link
               href={`/en${pathWithoutLocale}`}

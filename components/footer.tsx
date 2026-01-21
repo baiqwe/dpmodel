@@ -16,21 +16,21 @@ export function Footer() {
   const currentLocale = (pathParts[1] === 'en' || pathParts[1] === 'zh') ? pathParts[1] : 'en';
   const localePrefix = `/${currentLocale}`;
 
-  // 工具链接 - 内链建设核心
-  const toolLinks = [
-    { label: "Grayscale Converter", labelZh: "灰度转换", href: `${localePrefix}/color-to-black-and-white` },
-    { label: "Coloring Page Maker", labelZh: "填色画制作", href: `${localePrefix}/photo-to-coloring-page` },
-    { label: "Invert Colors", labelZh: "反色工具", href: `${localePrefix}/invert-colors` },
+  // 资源链接
+  const resourceLinks = [
+    { label: t('link_api'), href: "https://platform.deepseek.com", external: true },
+    { label: t('link_github'), href: "https://github.com/deepseek-ai", external: true },
+    { label: t('link_huggingface'), href: "https://huggingface.co/deepseek-ai", external: true },
   ];
 
-  // 格式链接 - 长尾词页面
-  const formatLinks = [
-    { label: "JPG to B&W", href: `${localePrefix}/jpg-to-black-and-white` },
-    { label: "PNG to B&W", href: `${localePrefix}/png-to-black-and-white` },
-    { label: "WebP to B&W", href: `${localePrefix}/webp-to-black-and-white` },
-    { label: "HEIC to B&W", href: `${localePrefix}/heic-to-black-and-white` },
+  // 页面锚点链接
+  const pageLinks = [
+    { label: "Playground", href: `${localePrefix}#playground` },
+    { label: currentLocale === 'zh' ? '模型对比' : 'Comparison', href: `${localePrefix}#comparison` },
+    { label: currentLocale === 'zh' ? '常见问题' : 'FAQ', href: `${localePrefix}#faq` },
   ];
 
+  // 法律链接
   const legalLinks = [
     { label: t('link_privacy'), href: `${localePrefix}/privacy` },
     { label: t('link_terms'), href: `${localePrefix}/terms` },
@@ -64,36 +64,18 @@ export function Footer() {
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               {currentLocale === 'zh'
-                ? '🔒 所有图片处理均在浏览器本地完成，从不上传到服务器。'
-                : '🔒 All images are processed locally in your browser. Never uploaded to any server.'}
+                ? '🚀 基于 FlashMLA 的新一代 AI 推理模型'
+                : '🚀 Next-gen AI reasoning powered by FlashMLA'}
             </p>
           </div>
 
-          {/* Tools - 工具内链 */}
+          {/* Quick Links */}
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-semibold">
-              {currentLocale === 'zh' ? '转换工具' : 'Tools'}
+              {currentLocale === 'zh' ? '快速链接' : 'Quick Links'}
             </h3>
             <nav className="flex flex-col gap-2">
-              {toolLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
-                >
-                  {currentLocale === 'zh' ? link.labelZh : link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Formats - 格式长尾词 */}
-          <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-semibold">
-              {currentLocale === 'zh' ? '支持格式' : 'Formats'}
-            </h3>
-            <nav className="flex flex-col gap-2">
-              {formatLinks.map((link) => (
+              {pageLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -101,6 +83,24 @@ export function Footer() {
                 >
                   {link.label}
                 </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Resources */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm font-semibold">{t('resources')}</h3>
+            <nav className="flex flex-col gap-2">
+              {resourceLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {link.label} ↗
+                </a>
               ))}
             </nav>
           </div>
@@ -125,7 +125,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-center text-sm text-muted-foreground md:text-left">
-            © {new Date().getFullYear()} {siteConfig.domain}. {t('rights')}
+            © {new Date().getFullYear()} {siteConfig.name}. {t('rights')}
           </p>
           <p className="text-center text-sm text-muted-foreground md:text-right">
             Built by <span className="font-medium">{siteConfig.author}</span>
@@ -135,4 +135,3 @@ export function Footer() {
     </footer>
   );
 }
-
