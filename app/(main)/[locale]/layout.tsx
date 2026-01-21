@@ -10,6 +10,7 @@ import { Geist } from "next/font/google";
 import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { createClient } from "@/utils/supabase/server";
+import { siteConfig } from "@/config/site";
 import "../../globals.css";
 
 // ✅ 必须添加这一行，让前端页面兼容 Cloudflare Edge
@@ -24,50 +25,42 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const params = await props.params;
     const { locale } = params;
     const messages = await getMessages({ locale }) as any;
+    const siteUrl = process.env.NEXT_PUBLIC_APP_URL || siteConfig.url;
 
     return {
-        // ✅ SEO 核心: metadataBase 用于生成绝对 URL
-        metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://makebw.com'),
+        // ✅ SEO Core
+        metadataBase: new URL(siteUrl),
 
         title: {
             default: messages.metadata.title,
-            template: '%s | MakeBW.com'
+            template: `%s | ${siteConfig.name}`
         },
         description: messages.metadata.description,
         keywords: messages.metadata.keywords,
 
-        // ✅ 作者和站点信息
-        authors: [{ name: 'Bai' }],
-        creator: 'Bai',
-        publisher: 'MakeBW.com',
+        // ✅ Author & Site Info
+        authors: [{ name: siteConfig.author }],
+        creator: siteConfig.author,
+        publisher: siteConfig.name,
 
-        // ✅ Open Graph - 添加图片
+        // ✅ Open Graph - Next.js will automatically use app/opengraph-image.tsx
         openGraph: {
             title: messages.metadata.title,
             description: messages.metadata.description,
             type: "website",
             locale: locale === 'zh' ? 'zh_CN' : 'en_US',
-            url: `https://makebw.com/${locale}`,
-            siteName: 'MakeBW.com',
-            images: [
-                {
-                    url: 'https://makebw.com/web-app-manifest-512x512.png',
-                    width: 512,
-                    height: 512,
-                    alt: 'MakeBW - Free Image to Black and White Converter',
-                },
-            ],
+            url: `${siteUrl}/${locale}`,
+            siteName: siteConfig.name,
         },
 
-        // ✅ Twitter Card - 添加图片
+        // ✅ Twitter Card
         twitter: {
             card: "summary_large_image",
             title: messages.metadata.title,
             description: messages.metadata.description,
-            images: ['https://makebw.com/web-app-manifest-512x512.png'],
         },
 
-        // ✅ Canonical & 多语言 alternates
+        // ✅ Canonical & Alternates
         alternates: {
             canonical: `/${locale}`,
             languages: {
@@ -77,7 +70,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             },
         },
 
-        // ✅ Robots 配置 - 允许索引
+        // ✅ Robots
         robots: {
             index: true,
             follow: true,
@@ -89,28 +82,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
                 'max-snippet': -1,
             },
         },
-
-        // ✅ Favicon 和图标配置 - 匹配实际文件
-        icons: {
-            icon: [
-                { url: '/favicon.ico', sizes: 'any' },
-                { url: '/favicon.svg', type: 'image/svg+xml' },
-                { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-            ],
-            apple: [
-                { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-            ],
-            other: [
-                { rel: 'mask-icon', url: '/favicon.svg', color: '#000000' },
-            ],
-        },
-
-        // ✅ Web App Manifest
-        manifest: '/site.webmanifest',
-
-        // ✅ 其他 SEO 相关
-        category: 'technology',
-        classification: 'Image Processing Tool',
     };
 }
 
