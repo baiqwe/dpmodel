@@ -1,10 +1,11 @@
 import Script from 'next/script';
+import { siteConfig } from '@/config/site';
 
 export function GoogleAnalytics() {
     return (
         <>
             <Script
-                src="https://www.googletagmanager.com/gtag/js?id=G-YT7DTCMVZ1"
+                src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.gaId}`}
                 strategy="afterInteractive"
             />
             <Script id="google-analytics" strategy="afterInteractive">
@@ -13,7 +14,7 @@ export function GoogleAnalytics() {
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
 
-                    gtag('config', 'G-YT7DTCMVZ1');
+                    gtag('config', '${siteConfig.gaId}');
                 `}
             </Script>
         </>

@@ -10,7 +10,7 @@ export const siteConfig = {
   supportEmail: "support@deepseekmodel1.com", // 联系邮箱
 
   // === 分析追踪 ===
-  gaId: "G-XXXXXXXXXX",                       // Google Analytics ID (待配置)
+  gaId: "G-FEHNYLG9P8",                       // Google Analytics ID
 
   // === 国际化配置 ===
   i18n: {
